@@ -1,67 +1,42 @@
 package com.cabify.smart.challenge.checkout
 
+import com.cabify.smart.challenge.data.cache.ICache
 import com.cabify.smart.challenge.domain.checkout.ICheckOut
-import com.cabify.smart.challenge.domain.model.Product
+import com.cabify.smart.challenge.domain.model.ProductCheckOut
 import com.cabify.smart.challenge.domain.model.ProductCode
 import io.reactivex.Single
 
-class CheckOutImp : ICheckOut {
+class CheckOutImp(
+    private val dataCache: ICache
+) : ICheckOut {
 
-    private val products = mutableMapOf<Product, Int>()
+    private val products = mutableListOf<ProductCheckOut>()
 
-    private var tshirtCount = 0
-    private var voucherCount = 0
+    override fun addProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create {
+        val product = dataCache.getProduct(productCode)
 
-    private var total = 0
+        products[productCode] =
+                products[productCode]?.apply {
+                    this.units++
+                } ?: ProductCheckOut(product.name, product.price, 1, 0)
 
-    override fun addProduct(product: Product): Single<Int> = Single.create {
-        total += product.price
-
-        if (product.code == ProductCode.VOUCHER) {
-            voucherCount++
-            if (voucherCount == 2) {
-                voucherCount = 0
-                total -= product.price
-            }
-        }
-
-        if (product.code == ProductCode.TSHIRT) {
-            tshirtCount++
-            if (tshirtCount == 3) {
-                tshirtCount = 0
-                total -= 3
-            }
-        }
-
-        products[product] = products[product]?.plus(1) ?: 1
-
-        it.onSuccess(total)
+        it.onSuccess(products.values.toList())
     }
 
-    override fun removeProduct(product: Product): Single<Int> = Single.create {
-        products[product]?.run {
+    override fun removeProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create {
+        val product = dataCache.getProduct(productCode)
 
-            total -= product.price
-
-            if (product.code == ProductCode.VOUCHER) {
-                voucherCount--
-                if (voucherCount == -2) {
-                    voucherCount = 0
-                    total += product.price
-                }
+        products[productCode]?.run {
+            this.units--
+            if (units == 0) {
+                products.remove(productCode)
             }
-
-            if (product.code == ProductCode.TSHIRT) {
-                tshirtCount--
-                if (tshirtCount == -3) {
-                    tshirtCount = 0
-                    total += 3
-                }
-            }
-
-            products[product] = this - 1
         }
 
-        it.onSuccess(total)
+        it.onSuccess(products.values.toList())
+    }
+
+    private fun calculateDiscount() {
+
     }
 }
