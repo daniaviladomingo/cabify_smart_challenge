@@ -3,9 +3,11 @@ package com.cabify.smart.challenge.domain.interactor
 import com.cabify.smart.challenge.domain.checkout.ICheckOut
 import com.cabify.smart.challenge.domain.interactor.type.SingleUseCaseWithParameter
 import com.cabify.smart.challenge.domain.model.Product
+import com.cabify.smart.challenge.domain.model.ProductCheckOut
+import com.cabify.smart.challenge.domain.model.ProductCode
 import io.reactivex.Single
 
-class AddProductUseCase(private val checkout: ICheckOut) : SingleUseCaseWithParameter<Product, Int> {
-    override fun execute(parameter: Product): Single<Int> = checkout.addProduct(parameter)
-
+class AddProductUseCase(private val checkout: ICheckOut) :
+    SingleUseCaseWithParameter<ProductCode, List<ProductCheckOut>> {
+    override fun execute(parameter: ProductCode): Single<List<ProductCheckOut>> = checkout.addProduct(parameter)
 }
