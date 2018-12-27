@@ -1,8 +1,9 @@
 package com.cabify.smart.challenge.di.application.module
 
-import com.cabify.smart.challenge.data.remote.model.DataProduct
-import com.cabify.smart.challenge.data.remote.model.DataProducts
-import com.cabify.smart.challenge.data.remote.model.mapper.DataMapper
+import com.cabify.smart.challenge.data.cache.model.ProductDb
+import com.cabify.smart.challenge.data.cache.model.mapper.CacheMapper
+import com.cabify.smart.challenge.data.remote.model.RemoteProduct
+import com.cabify.smart.challenge.data.remote.model.mapper.RemoteMapper
 import com.cabify.smart.challenge.domain.model.Product
 import com.cabify.smart.challenge.domain.model.mapper.Mapper
 import dagger.Module
@@ -13,5 +14,9 @@ import javax.inject.Singleton
 class MapperModule {
     @Provides
     @Singleton
-    fun provideSmsRequestMapper(): Mapper<DataProduct, Product> = DataMapper()
+    fun provideRemoteMapper(): Mapper<RemoteProduct, Product> = RemoteMapper()
+
+    @Provides
+    @Singleton
+    fun provideCacheMapper(): Mapper<ProductDb, Product> = CacheMapper()
 }

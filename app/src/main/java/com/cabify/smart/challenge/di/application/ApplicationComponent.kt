@@ -9,6 +9,7 @@ import javax.inject.Singleton
 @Component(
     modules = [
         ApplicationModule::class,
+        DataCacheModule::class,
         DataModule::class,
         DataRemoteModule::class,
         MapperModule::class,
