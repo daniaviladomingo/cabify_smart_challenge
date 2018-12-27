@@ -15,10 +15,7 @@ class CheckOutImp(
     override fun addProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create {
         val product = dataCache.getProduct(productCode)
 
-        products[productCode] =
-                products[productCode]?.apply {
-                    this.units++
-                } ?: ProductCheckOut(product.name, product.price, 1, 0)
+
 
         it.onSuccess(products.values.toList())
     }

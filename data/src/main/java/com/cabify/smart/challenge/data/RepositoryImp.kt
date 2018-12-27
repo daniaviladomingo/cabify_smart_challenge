@@ -13,5 +13,6 @@ class RepositoryImp(
     private val cache: ICache,
     private val mapper: Mapper<DataProducts, List<Product>>
 ) : IRepository {
-    override fun getProducts(): Single<List<Product>> = remote.getProducts().map { mapper.map(it) }.doOnSuccess { cache.addProducts(it) }
+    override fun getProducts(): Single<List<Product>> =
+        remote.getProducts().map { mapper.map(it) }.doOnSuccess { cache.addProducts(it) }
 }

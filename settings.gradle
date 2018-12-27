@@ -1,1 +1,1 @@
-include ':app', ':domain', ':data', ':checkout'
+include ':app', ':domain', ':checkout', ':data', ':data.cache'
