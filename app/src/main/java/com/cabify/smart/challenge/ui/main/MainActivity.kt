@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.cabify.smart.challenge.R
 import com.cabify.smart.challenge.base.BaseActivity
 import com.cabify.smart.challenge.di.activity.ActivityComponent
+import com.cabify.smart.challenge.domain.model.Product
 import com.cabify.smart.challenge.ui.model.ProductView
 import kotlinx.android.synthetic.main.item_product.view.*
 
@@ -53,11 +54,11 @@ class MainActivity : BaseActivity() {
         }
 
         inner class ProductHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            fun bin(productView: ProductView){
-                productView.run {
+            fun bin(product: Product){
+                product.run {
 
-                    itemView.product.text = productView.name
-                    itemView.crew_race.text = race.name
+                    itemView.product.text = name
+                    itemView.price.text = price
 
                 }
             }

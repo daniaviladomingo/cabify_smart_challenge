@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.main.MainActivity">
 
-
     <android.support.v7.widget.RecyclerView
-            android:layout_above="@+id/total_amount"
+            android:layout_weight="4.5"
             android:id="@+id/products"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:layout_weight="4.5"
+            android:id="@+id/products_checkout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
 
     <TextView
             android:id="@+id/total_amount"
-            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="0dp"/>
 
-</RelativeLayout>
+</LinearLayout>

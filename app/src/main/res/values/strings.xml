@@ -7,4 +7,7 @@
     <string name="button_check_again">Check again</string>
     <string name="button_try_again">Try again</string>
     <string name="dialog_ok_button">OK</string>
+
+    <string name="format_price">%1$d %2$s</string>
+
 </resources>

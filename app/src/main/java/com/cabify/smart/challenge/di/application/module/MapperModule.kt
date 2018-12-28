@@ -6,6 +6,8 @@ import com.cabify.smart.challenge.data.remote.model.RemoteProduct
 import com.cabify.smart.challenge.data.remote.model.mapper.RemoteMapper
 import com.cabify.smart.challenge.domain.model.Product
 import com.cabify.smart.challenge.domain.model.mapper.Mapper
+import com.cabify.smart.challenge.ui.model.ProductView
+import com.cabify.smart.challenge.ui.model.mapper.ProductViewMapper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -19,4 +21,8 @@ class MapperModule {
     @Provides
     @Singleton
     fun provideCacheMapper(): Mapper<ProductDb, Product> = CacheMapper()
+
+    @Provides
+    @Singleton
+    fun provideProductViewMapper(): Mapper<Product, ProductView> = ProductViewMapper()
 }
