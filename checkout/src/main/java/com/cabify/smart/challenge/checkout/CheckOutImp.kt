@@ -12,28 +12,43 @@ class CheckOutImp(
 
     private val products = mutableListOf<ProductCheckOut>()
 
-    override fun addProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create {
+    override fun addProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create { emitter ->
         val product = dataCache.getProduct(productCode)
 
+        products.add(products.find { it.code == productCode }?.apply { units++ } ?: ProductCheckOut(
+            product.code,
+            product.name,
+            product.price,
+            0,
+            0
+        ))
 
-
-        it.onSuccess(products.values.toList())
+        calculateDiscount()
+        emitter.onSuccess(products)
     }
 
-    override fun removeProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create {
-        val product = dataCache.getProduct(productCode)
+    override fun removeProduct(productCode: ProductCode): Single<List<ProductCheckOut>> = Single.create { emitter ->
 
-        products[productCode]?.run {
-            this.units--
-            if (units == 0) {
-                products.remove(productCode)
-            }
+        products.find { it.code == productCode }?.run {
+            units--
         }
 
-        it.onSuccess(products.values.toList())
+        calculateDiscount()
+        emitter.onSuccess(products)
     }
 
     private fun calculateDiscount() {
-
+        products.forEach { product ->
+            when (product.code) {
+                ProductCode.VOUCHER -> {
+                    product.discount = (product.units / 2) * product.price
+                }
+                ProductCode.TSHIRT -> {
+                    product.discount = (product.units / 3) * 3
+                }
+                else -> {
+                }
+            }
+        }
     }
 }
