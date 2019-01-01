@@ -7,7 +7,10 @@ import com.cabify.smart.challenge.di.activity.ViewModelKey
 import com.cabify.smart.challenge.domain.interactor.AddProductUseCase
 import com.cabify.smart.challenge.domain.interactor.GetProductsUseCase
 import com.cabify.smart.challenge.domain.interactor.RemoveProductUseCase
+import com.cabify.smart.challenge.domain.model.Product
+import com.cabify.smart.challenge.domain.model.mapper.Mapper
 import com.cabify.smart.challenge.schedulers.IScheduleProvider
+import com.cabify.smart.challenge.ui.model.ProductView
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
@@ -21,13 +24,15 @@ class ViewModelModule {
     @ViewModelKey(MainActivityViewModel::class)
     fun provideMainActivityViewModel(
         getProductsUseCase: GetProductsUseCase,
-        scheduleProvider: IScheduleProvider,
         addProductUseCase: AddProductUseCase,
-        removeProductUseCase: RemoveProductUseCase
+        removeProductUseCase: RemoveProductUseCase,
+        scheduleProvider: IScheduleProvider,
+        productMapper: Mapper<Product, ProductView>
     ): ViewModel = MainActivityViewModel(
         getProductsUseCase,
         addProductUseCase,
         removeProductUseCase,
-        scheduleProvider
+        scheduleProvider,
+        productMapper
     )
 }

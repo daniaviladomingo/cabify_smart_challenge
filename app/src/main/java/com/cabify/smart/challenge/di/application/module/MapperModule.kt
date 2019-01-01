@@ -4,6 +4,7 @@ import com.cabify.smart.challenge.data.cache.model.ProductDb
 import com.cabify.smart.challenge.data.cache.model.mapper.CacheMapper
 import com.cabify.smart.challenge.data.remote.model.RemoteProduct
 import com.cabify.smart.challenge.data.remote.model.mapper.RemoteMapper
+import com.cabify.smart.challenge.di.application.FormatPrice
 import com.cabify.smart.challenge.domain.model.Product
 import com.cabify.smart.challenge.domain.model.mapper.Mapper
 import com.cabify.smart.challenge.ui.model.ProductView
@@ -24,5 +25,10 @@ class MapperModule {
 
     @Provides
     @Singleton
-    fun provideProductViewMapper(): Mapper<Product, ProductView> = ProductViewMapper()
+    fun provideProductViewMapper(@FormatPrice formatPrice: String): Mapper<Product, ProductView> = ProductViewMapper(formatPrice)
+
+    @Provides
+    @Singleton
+    @FormatPrice
+    fun provideFormatPrice(): String = "%d€"
 }
